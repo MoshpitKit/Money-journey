@@ -1,0 +1,66 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import CompoundInterestCalc from "../../components/calculators/CompoundInterestCalc.tsx";
+
+const faqs = [
+  {
+    q: "How is compound interest calculated?",
+    a: "Compound interest grows your balance on both your original money and the interest it has already earned. This calculator applies your annual rate at the compounding frequency you choose, adds your monthly contributions, and repeats month by month for the full period.",
+  },
+  {
+    q: "What's a realistic rate of return?",
+    a: "Cash in a high-yield savings account is typically around 4–5%. A diversified stock-index portfolio has historically averaged roughly 7% per year after inflation over long periods, but it is volatile and not guaranteed. Use a conservative number if you want a safety margin.",
+  },
+  {
+    q: "Does compounding frequency really matter?",
+    a: "A little. Daily vs. annual compounding at the same nominal rate makes only a small difference over time — your contribution amount and the rate itself matter far more than how often interest is added.",
+  },
+  {
+    q: "Are the results adjusted for inflation?",
+    a: "No. The future balance is in nominal dollars. To think in today's purchasing power, subtract roughly 2–3% from your return rate before calculating.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="compound-interest"
+  intro="See exactly how your savings and investments grow over time when interest compounds and you keep contributing. Adjust the numbers and watch the snowball form."
+  placement="compound-interest"
+  faqs={faqs}
+>
+  <CompoundInterestCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>The simplest way to build wealth</h2>
+    <p>
+      Compound interest is often called the eighth wonder of the world for a
+      reason: your money earns returns, and then those returns earn returns too.
+      Given enough time, the growth becomes exponential — the curve in the chart
+      above starts gently and then bends sharply upward.
+    </p>
+    <p>
+      The three levers you control are <strong>how much you start with</strong>,
+      <strong>how much you add each month</strong>, and <strong>how long you
+      leave it alone</strong>. Time is the most powerful of the three, which is
+      why starting early beats starting big.
+    </p>
+
+    <h2>The formula behind it</h2>
+    <p>
+      For a lump sum, future value is <code>FV = P × (1 + r/n)^(n×t)</code>, where
+      P is your principal, r is the annual rate, n is the number of times interest
+      compounds per year, and t is the number of years. When you add regular
+      contributions, each deposit grows for however long it stays invested. This
+      calculator simulates every month so the contribution timing is exact.
+    </p>
+
+    <h2>An example</h2>
+    <p>
+      Invest $10,000, add $500 a month, and earn 7% a year. After 25 years you'd
+      have contributed $160,000 of your own money — but the balance would be far
+      higher because compounding does the rest. Try lowering the time horizon to
+      15 years and you'll see how dramatically the final number drops. That gap is
+      the cost of waiting.
+    </p>
+  </Fragment>
+</CalculatorPage>

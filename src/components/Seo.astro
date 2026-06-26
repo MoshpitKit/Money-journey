@@ -1,0 +1,57 @@
+---
+import { SITE } from "../config.ts";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path like "/calculators/mortgage" — canonical is built from SITE.url. */
+  path?: string;
+  /** Optional JSON-LD object(s) injected into <head>. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  path = "",
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const fullTitle =
+  title === SITE.name ? `${SITE.name} — ${SITE.tagline}` : `${title} | ${SITE.name}`;
+const canonical = new URL(path, SITE.url).href;
+const ogImage = new URL("/og.svg", SITE.url).href;
+const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={SITE.locale} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{
+  blocks.map((block) => (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(block)}
+    />
+  ))
+}

@@ -1,0 +1,59 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import SavingsGoalCalc from "../../components/calculators/SavingsGoalCalc.tsx";
+
+const faqs = [
+  {
+    q: "How much should I save each month?",
+    a: "Enter your goal, what you've already saved, your timeline, and an expected interest rate. The calculator solves for the exact monthly deposit that gets you there — accounting for the interest your balance earns along the way.",
+  },
+  {
+    q: "What rate should I use for short-term goals?",
+    a: "For goals within a few years, keep the money safe in a high-yield savings account or money-market fund earning roughly 4–5%. Avoid the stock market for money you'll need soon, since it can drop right when you need it.",
+  },
+  {
+    q: "What if I can't save the required amount?",
+    a: "You have three options: extend your timeline, lower the goal, or find a higher rate. Try increasing the number of years in the calculator — even a small extension can make the monthly figure much more manageable.",
+  },
+  {
+    q: "Should I save for a goal or pay off debt first?",
+    a: "Generally, pay off high-interest debt (above ~8–10%) before saving toward optional goals, since the guaranteed 'return' from eliminating that interest usually beats what savings earn. Always keep a small emergency fund, though.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="savings-goal"
+  intro="Have a target — a house deposit, a wedding, a car, an emergency fund? Find out exactly how much to set aside each month to reach it right on time."
+  placement="savings-goal"
+  faqs={faqs}
+>
+  <SavingsGoalCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Turn a big goal into a monthly habit</h2>
+    <p>
+      Big numbers feel overwhelming until you break them down. This calculator does
+      the math in reverse: instead of asking "how much will I have," it asks "how
+      much must I save each month to hit my exact goal by my deadline?" — and it
+      credits the interest your balance earns along the way.
+    </p>
+
+    <h2>Make your money help you</h2>
+    <p>
+      Parking your savings in an account that actually pays interest does real work.
+      The "interest earned" figure shows how much of your goal is covered by growth
+      rather than your own deposits. Even at modest rates, that share grows
+      meaningfully over a few years — which is why where you keep the money matters
+      almost as much as how much you save.
+    </p>
+
+    <h2>Automate it and forget it</h2>
+    <p>
+      The single most effective savings tactic is automation: set up a recurring
+      transfer for the monthly amount above on payday, into a separate account you
+      don't touch. When saving happens before you can spend, hitting the goal stops
+      requiring willpower.
+    </p>
+  </Fragment>
+</CalculatorPage>

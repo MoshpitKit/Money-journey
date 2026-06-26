@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import Seo from "./Seo.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import Analytics from "./Analytics.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+const { title, description, path, jsonLd, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <Seo {title} {description} {path} {jsonLd} {noindex} />
+    <Analytics />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

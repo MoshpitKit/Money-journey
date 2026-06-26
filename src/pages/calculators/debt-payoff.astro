@@ -1,0 +1,69 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import DebtPayoffCalc from "../../components/calculators/DebtPayoffCalc.tsx";
+
+const faqs = [
+  {
+    q: "What's the difference between the snowball and avalanche methods?",
+    a: "The avalanche method pays off your highest-interest debt first, which mathematically saves the most money. The snowball method pays off your smallest balance first, which gives you quick wins and momentum. This tool shows both so you can compare the cost and the timeline.",
+  },
+  {
+    q: "Which method should I choose?",
+    a: "If you'll stick with the plan either way, choose avalanche — it costs the least. If you need motivation to keep going, the fast wins of snowball can be worth the small extra interest. The best method is the one you'll actually finish.",
+  },
+  {
+    q: "How does paying extra speed things up?",
+    a: "After covering every minimum payment, any leftover money in your budget is thrown at one target debt. When that debt is gone, its freed-up payment rolls onto the next one — the 'snowball' effect — so each payoff accelerates the next.",
+  },
+  {
+    q: "What if I can't cover my minimum payments?",
+    a: "If your budget is below the total minimums, the calculator flags it. In that case, contact your lenders about hardship options, or look at whether a lower-rate consolidation loan or balance transfer could reduce your required payments.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="debt-payoff"
+  intro="List your debts, set what you can pay each month, and compare the snowball vs avalanche methods. See your debt-free date and exactly how much interest each plan costs."
+  placement="debt-payoff"
+  faqs={faqs}
+>
+  <DebtPayoffCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Two proven ways to kill debt</h2>
+    <p>
+      Both methods start the same way: you pay the minimum on every debt so nothing
+      goes delinquent. The difference is where your <em>extra</em> money goes.
+    </p>
+    <ul>
+      <li>
+        <strong>Avalanche</strong> sends every spare dollar to the debt with the
+        highest interest rate. This always costs the least total interest and is
+        the mathematically optimal choice.
+      </li>
+      <li>
+        <strong>Snowball</strong> sends every spare dollar to the smallest balance
+        first. You eliminate whole debts quickly, which is motivating and frees up
+        minimum payments faster.
+      </li>
+    </ul>
+
+    <h2>Why the order matters so much</h2>
+    <p>
+      High-interest debt — credit cards often charge over 20% APR — grows fast. The
+      avalanche method starves that fire first. The snowball method trades a small
+      amount of extra interest for the psychological boost of crossing debts off
+      your list. The calculator above shows the exact dollar difference for your
+      situation, so you can decide whether the trade-off is worth it to you.
+    </p>
+
+    <h2>The fastest lever of all: a lower rate</h2>
+    <p>
+      Neither method changes your interest rate. If your cards are above roughly
+      15% APR, refinancing into a lower-rate personal loan or a 0% balance-transfer
+      card can cut the interest dramatically and shorten the payoff — sometimes
+      more than any change in strategy. Run your numbers both ways.
+    </p>
+  </Fragment>
+</CalculatorPage>

@@ -1,0 +1,51 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../config.ts";
+---
+
+<Layout title="About" description={`About ${SITE.name} — free, accurate personal-finance calculators.`} path="/about">
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">About {SITE.name}</h1>
+    <div class="prose-money mt-6">
+      <p>
+        {SITE.name} exists to answer everyday money questions clearly and
+        honestly. Most financial websites bury a simple calculation under ads,
+        pop-ups and sign-up walls. We do the opposite: fast, accurate tools that
+        run entirely in your browser, with plain-English explanations of what the
+        numbers mean.
+      </p>
+
+      <h2>How our calculators work</h2>
+      <p>
+        Every calculator is built on transparent, standard financial formulas —
+        the same math used by banks and planners. The core engine is unit-tested
+        against known textbook results, so you can trust the output. Nothing you
+        type is sent to a server; the math happens on your device.
+      </p>
+
+      <h2>How we stay free</h2>
+      <p>
+        We keep the site free through advertising and partner (affiliate) links.
+        When we suggest a product — like a high-yield savings account or a
+        brokerage — we may earn a commission if you sign up, at no extra cost to
+        you. We only ever present these as options to consider, never as advice
+        for your specific situation. See our
+        <a href="/disclosure">advertiser disclosure</a> for details.
+      </p>
+
+      <h2>Not financial advice</h2>
+      <p>
+        We're a tools-and-education site, not a licensed financial advisor. Our
+        calculators produce estimates based on the figures and assumptions you
+        provide. Always confirm important decisions with a qualified professional
+        who knows your full situation.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, corrections, or suggestions for a new calculator? Email us at
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. We read everything.
+      </p>
+    </div>
+  </div>
+</Layout>

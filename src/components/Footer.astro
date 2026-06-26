@@ -1,0 +1,60 @@
+---
+import { SITE } from "../config.ts";
+import { CALCULATORS } from "../lib/catalog.ts";
+const year = 2026;
+---
+
+<footer class="mt-20 border-t border-slate-200 bg-white">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
+    <div>
+      <div class="flex items-center gap-2 font-extrabold text-slate-900">
+        <span class="grid h-7 w-7 place-items-center rounded-lg bg-brand-600 text-white">$</span>
+        {SITE.name}
+      </div>
+      <p class="mt-3 text-sm text-slate-500">{SITE.tagline}</p>
+    </div>
+
+    <div>
+      <h3 class="mb-3 text-sm font-semibold text-slate-900">Calculators</h3>
+      <ul class="space-y-2 text-sm text-slate-600">
+        {CALCULATORS.map((c) => (
+          <li><a class="hover:text-brand-700" href={`/calculators/${c.slug}`}>{c.short}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="mb-3 text-sm font-semibold text-slate-900">Learn</h3>
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li><a class="hover:text-brand-700" href="/guides">Guides</a></li>
+        <li><a class="hover:text-brand-700" href="/about">About</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="mb-3 text-sm font-semibold text-slate-900">Legal</h3>
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li><a class="hover:text-brand-700" href="/disclosure">Advertiser Disclosure</a></li>
+        <li><a class="hover:text-brand-700" href="/privacy">Privacy Policy</a></li>
+        <li><a class="hover:text-brand-700" href="/terms">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-100">
+    <div class="mx-auto max-w-6xl px-4 py-6 text-xs leading-relaxed text-slate-400">
+      <p>
+        © {year} {SITE.name}. The calculators and content on this site are for
+        general educational purposes only and are not financial, tax, or
+        investment advice. Results are estimates based on the figures you enter
+        and the assumptions described on each page; your actual results will
+        vary. Verify any decision with a qualified professional.
+      </p>
+      <p class="mt-2">
+        Some links on this site are partner/affiliate links. If you open an
+        account or make a purchase through them we may earn a commission at no
+        extra cost to you. See our <a class="underline" href="/disclosure">advertiser disclosure</a>.
+      </p>
+    </div>
+  </div>
+</footer>

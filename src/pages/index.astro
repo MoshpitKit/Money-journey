@@ -1,0 +1,91 @@
+---
+import Layout from "../components/Layout.astro";
+import { CALCULATORS } from "../lib/catalog.ts";
+import { SITE } from "../config.ts";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE.url}/calculators?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+---
+
+<Layout title={SITE.name} description={SITE.description} path="/" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 to-slate-50">
+    <div class="mx-auto max-w-5xl px-4 py-20 text-center">
+      <span class="inline-block rounded-full bg-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">
+        100% free · no sign-up · no ads in your face
+      </span>
+      <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
+        Make smarter money<br /> decisions in seconds
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+        Accurate, easy-to-use calculators for the money questions that actually
+        matter — investing, mortgages, debt, retirement and more. No fluff, no
+        jargon, just clear answers.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/calculators/compound-interest" class="btn text-base">Grow my money →</a>
+        <a href="/calculators/debt-payoff" class="btn-ghost text-base">Get out of debt</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator grid -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <h2 class="text-center text-3xl font-bold text-slate-900">Choose a calculator</h2>
+    <p class="mx-auto mt-2 max-w-xl text-center text-slate-500">
+      Every result updates instantly as you type, with a clear chart and a plain-English explanation.
+    </p>
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {CALCULATORS.map((c) => (
+        <a href={`/calculators/${c.slug}`} class="card group transition hover:-translate-y-1 hover:border-brand-300 hover:shadow-md">
+          <div class="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d={c.icon} />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-slate-900 group-hover:text-brand-700">{c.title}</h3>
+          <p class="mt-1.5 text-sm text-slate-500">{c.blurb}</p>
+          <span class="mt-3 inline-block text-sm font-semibold text-brand-600">Open calculator →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Trust / how it works -->
+  <section class="border-y border-slate-200 bg-white">
+    <div class="mx-auto grid max-w-5xl gap-8 px-4 py-16 sm:grid-cols-3">
+      {[
+        { t: "Genuinely accurate", d: "Every calculator is built on transparent, unit-tested financial formulas — not rough approximations.", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" },
+        { t: "Private by design", d: "Everything runs in your browser. We don't ask for your email and your numbers never leave your device.", icon: "M12 11c0-1.1.9-2 2-2m-2 2H5m7 0v8m0-8a2 2 0 10-4 0M17 11V7a5 5 0 00-10 0v4" },
+        { t: "Plain-English answers", d: "Beyond the number, each tool explains what it means and what you can do about it.", icon: "M8 10h8M8 14h5m7-2a9 9 0 11-18 0 9 9 0 0118 0z" },
+      ].map((f) => (
+        <div class="text-center">
+          <div class="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-brand-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d={f.icon} /></svg>
+          </div>
+          <h3 class="mt-4 font-bold text-slate-900">{f.t}</h3>
+          <p class="mt-1.5 text-sm text-slate-500">{f.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-4xl px-4 py-20 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">Start your money journey today</h2>
+    <p class="mx-auto mt-3 max-w-xl text-slate-600">
+      Small, informed decisions compound into big results. Pick a calculator and see your own numbers in under a minute.
+    </p>
+    <a href="/calculators/compound-interest" class="btn mt-6 text-base">Try the compound interest calculator →</a>
+  </section>
+</Layout>

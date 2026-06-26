@@ -1,0 +1,69 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import RetirementCalc from "../../components/calculators/RetirementCalc.tsx";
+
+const faqs = [
+  {
+    q: "What is a FIRE number?",
+    a: "Your FIRE (Financial Independence, Retire Early) number is the size of the nest egg that can fund your lifestyle indefinitely. A common rule of thumb divides your desired annual spending by a safe withdrawal rate of 4% — so $60,000 a year ÷ 0.04 = $1.5 million.",
+  },
+  {
+    q: "What is the 4% rule?",
+    a: "It's a guideline suggesting you can withdraw about 4% of your portfolio in your first year of retirement, then adjust for inflation each year, with a high chance the money lasts 30+ years. It's a starting point, not a guarantee — markets and lifespans vary.",
+  },
+  {
+    q: "Does this account for inflation?",
+    a: "Yes. The income you enter is in today's dollars, and the calculator grows your target by an assumed inflation rate to your retirement date, so the FIRE number reflects future prices.",
+  },
+  {
+    q: "What return rate should I assume?",
+    a: "A diversified portfolio has historically returned roughly 7% per year after inflation over long periods, but returns are volatile and not guaranteed. Using a conservative figure builds in a safety margin.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="retirement"
+  heading="Retirement & FIRE Calculator"
+  intro="Project your nest egg, find the number you need to retire (your FIRE number), and see at a glance whether you're on track — adjusted for inflation."
+  placement="retirement"
+  faqs={faqs}
+>
+  <RetirementCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Two questions this answers</h2>
+    <p>
+      Retirement planning comes down to two numbers: <strong>how much you'll
+      have</strong> and <strong>how much you'll need</strong>. The calculator
+      projects the first by growing your current savings and monthly contributions
+      at your expected return. It estimates the second by inflating your desired
+      income to your retirement date and dividing by a safe withdrawal rate.
+    </p>
+
+    <h2>Why starting early wins</h2>
+    <p>
+      Because of compounding, the contributions you make in your 20s and 30s do far
+      more work than the ones you make in your 50s. Try shifting your current age
+      down a few years in the calculator — the projected balance jumps, even with
+      the same monthly amount. That's decades of extra compounding.
+    </p>
+
+    <h2>If you're behind, you have levers</h2>
+    <p>
+      A shortfall isn't the end of the story. You can increase contributions, work
+      a few years longer (which both adds savings and shortens the drawdown
+      period), trim your target spending, or use tax-advantaged accounts like a
+      401(k) or IRA to keep more of your returns. Adjust the inputs to see which
+      lever moves your number the most.
+    </p>
+
+    <h2>About the 4% rule</h2>
+    <p>
+      The 4% safe-withdrawal rate comes from research on historical market returns.
+      It's a useful planning anchor, but real retirements are messier — sequence of
+      returns, healthcare, and lifespan all matter. Treat the FIRE number as a
+      target to aim for, then revisit your plan regularly.
+    </p>
+  </Fragment>
+</CalculatorPage>

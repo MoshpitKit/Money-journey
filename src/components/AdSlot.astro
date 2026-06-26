@@ -1,0 +1,31 @@
+---
+import { MONETIZATION } from "../config.ts";
+
+interface Props {
+  /** AdSense ad slot id (the numeric id from your ad unit). */
+  slot?: string;
+  label?: string;
+}
+const { slot = "", label = "Advertisement" } = Astro.props;
+const { adsensePublisherId } = MONETIZATION;
+const show = Boolean(adsensePublisherId && slot);
+---
+
+{
+  show && (
+    <div class="my-8">
+      <p class="mb-1 text-center text-[10px] uppercase tracking-widest text-slate-400">
+        {label}
+      </p>
+      <ins
+        class="adsbygoogle block"
+        style="display:block"
+        data-ad-client={adsensePublisherId}
+        data-ad-slot={slot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+      <script is:inline set:html={`(adsbygoogle = window.adsbygoogle || []).push({});`} />
+    </div>
+  )
+}

@@ -1,0 +1,37 @@
+---
+import { MONETIZATION } from "../config.ts";
+const { plausibleDomain, ga4Id, adsensePublisherId } = MONETIZATION;
+---
+
+{/* Privacy-friendly analytics (no cookie banner needed) */}
+{plausibleDomain && (
+  <script
+    is:inline
+    defer
+    data-domain={plausibleDomain}
+    src="https://plausible.io/js/script.js"
+  />
+)}
+
+{/* Google Analytics 4 (optional) */}
+{ga4Id && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+    <script is:inline set:html={`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${ga4Id}');
+    `} />
+  </>
+)}
+
+{/* Google AdSense loader (only when you've added your publisher id) */}
+{adsensePublisherId && (
+  <script
+    is:inline
+    async
+    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsensePublisherId}`}
+    crossorigin="anonymous"
+  />
+)}

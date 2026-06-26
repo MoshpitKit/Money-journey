@@ -1,0 +1,29 @@
+{
+  "name": "money-journey",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Money Journey — free, accurate personal-finance calculators and guides.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^4.1.3",
+    "@astrojs/sitemap": "^3.7.3",
+    "@preact/signals": "^2.9.2",
+    "@tailwindcss/vite": "^4.3.1",
+    "astro": "^5.18.2",
+    "preact": "^10.29.3",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.6"
+  }
+}

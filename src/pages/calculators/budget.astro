@@ -1,0 +1,65 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import BudgetCalc from "../../components/calculators/BudgetCalc.tsx";
+
+const faqs = [
+  {
+    q: "What is the 50/30/20 rule?",
+    a: "It's a simple budgeting framework: spend about 50% of your take-home pay on needs, 30% on wants, and put 20% toward savings and debt payoff. It's popular because it's easy to remember and flexible.",
+  },
+  {
+    q: "What counts as a need vs a want?",
+    a: "Needs are essentials you can't easily skip: rent or mortgage, groceries, utilities, transport, insurance, and minimum debt payments. Wants are everything else — dining out, streaming, travel, hobbies, and upgrades.",
+  },
+  {
+    q: "What if my needs are more than 50%?",
+    a: "That's common in high-cost areas. Use the sliders to set a realistic split for your situation — maybe 60/20/20. The rule is a guideline, not a law. The goal is simply to keep some money flowing to savings every month.",
+  },
+  {
+    q: "Should the 20% go to savings or debt?",
+    a: "Both. If you have high-interest debt, prioritize it within the 20% bucket, while keeping a small emergency fund. Once the expensive debt is gone, redirect the full 20% to savings and investing.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="budget"
+  heading="50/30/20 Budget Calculator"
+  intro="Enter your monthly take-home pay and instantly see how much to spend on needs and wants, and how much to save — using the simple 50/30/20 rule."
+  placement="budget"
+  faqs={faqs}
+>
+  <BudgetCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Budgeting without the spreadsheet</h2>
+    <p>
+      The 50/30/20 rule is the easiest budget to actually stick to. Instead of
+      tracking dozens of categories, you split your take-home pay into just three
+      buckets: needs, wants, and savings. It gives you guardrails without
+      micromanaging every coffee.
+    </p>
+
+    <h2>The three buckets</h2>
+    <ul>
+      <li><strong>50% Needs</strong> — rent or mortgage, groceries, utilities, transport, insurance, and minimum debt payments.</li>
+      <li><strong>30% Wants</strong> — dining out, subscriptions, travel, hobbies, and the nice-to-haves that make life enjoyable.</li>
+      <li><strong>20% Savings</strong> — emergency fund, retirement, investments, and extra payments on debt.</li>
+    </ul>
+
+    <h2>Make it fit your life</h2>
+    <p>
+      If you live somewhere expensive, your needs might genuinely run higher than
+      50%. That's fine — adjust the sliders to a split you can sustain. What matters
+      most is that the savings bucket never hits zero. Even 10% saved consistently
+      beats a perfect budget you abandon after a month.
+    </p>
+
+    <h2>Pay yourself first</h2>
+    <p>
+      Once you know your savings number, automate it. Schedule the transfer for the
+      day you're paid so the money is gone before you can spend it. Budgeting works
+      best when the right choice is the automatic one.
+    </p>
+  </Fragment>
+</CalculatorPage>

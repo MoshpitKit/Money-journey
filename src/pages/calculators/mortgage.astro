@@ -1,0 +1,67 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import MortgageCalc from "../../components/calculators/MortgageCalc.tsx";
+
+const faqs = [
+  {
+    q: "What's included in my monthly mortgage payment?",
+    a: "Lenders call it PITI: Principal, Interest, Taxes and Insurance. This calculator adds all four, plus optional HOA dues and PMI, so you see the true monthly cost of owning — not just the loan payment.",
+  },
+  {
+    q: "What is PMI and when do I pay it?",
+    a: "Private mortgage insurance protects the lender when your down payment is under 20%. It typically costs around 0.5% of the loan per year. This tool adds an estimated PMI automatically when your down payment is below 20%, and removes it at or above 20%.",
+  },
+  {
+    q: "How much does an extra payment save?",
+    a: "A lot. Because early payments are mostly interest, paying even $100–$200 extra toward principal each month can shorten a 30-year loan by years and save tens of thousands in interest. Enter an amount in the 'extra payment' field to see your own numbers.",
+  },
+  {
+    q: "How much home can I afford?",
+    a: "A common guideline is keeping total housing costs under about 28% of your gross monthly income, and all debt under 36%. Use the total monthly payment from this calculator and compare it to your income.",
+  },
+];
+---
+
+<CalculatorPage
+  slug="mortgage"
+  intro="Estimate your real monthly house payment — principal, interest, property tax, insurance, PMI and HOA — and see how extra payments cut your interest."
+  placement="mortgage"
+  faqs={faqs}
+>
+  <MortgageCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Know the full cost before you fall in love with a house</h2>
+    <p>
+      The number lenders advertise is just principal and interest. Your actual
+      payment also includes property taxes, homeowners insurance, often HOA dues,
+      and — if you put down less than 20% — private mortgage insurance. Those
+      extras can add hundreds of dollars a month, so it pays to see the whole
+      picture first.
+    </p>
+
+    <h2>How your down payment changes everything</h2>
+    <p>
+      A bigger down payment lowers your loan amount, your monthly payment, and your
+      total interest — and once you hit 20% it eliminates PMI entirely. Slide the
+      down-payment control above and watch the monthly figure and PMI line react.
+    </p>
+
+    <h2>The power of one extra payment</h2>
+    <p>
+      In the early years of a mortgage, most of each payment goes to interest, not
+      principal. Adding even a modest extra amount toward principal every month
+      attacks the balance directly and compounds in your favor — shortening the
+      loan and cutting total interest substantially. The "extra payment" field
+      shows your personalized savings.
+    </p>
+
+    <h2>Should you choose a 15- or 30-year term?</h2>
+    <p>
+      A 15-year loan has higher monthly payments but a much lower interest rate and
+      far less total interest. A 30-year loan keeps payments low and flexible. Many
+      buyers take the 30-year term and simply make extra payments when they can —
+      getting the best of both. Toggle the term above to compare.
+    </p>
+  </Fragment>
+</CalculatorPage>

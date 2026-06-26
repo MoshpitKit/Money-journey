@@ -1,0 +1,66 @@
+---
+import Layout from "../../components/Layout.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { getCollection, render } from "astro:content";
+import { calcBySlug } from "../../lib/catalog.ts";
+import { SITE } from "../../config.ts";
+
+export async function getStaticPaths() {
+  const guides = (await getCollection("guides")).filter((g) => !g.data.draft);
+  return guides.map((g) => ({ params: { slug: g.id }, props: { guide: g } }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+const related = guide.data.relatedCalc ? calcBySlug(guide.data.relatedCalc) : undefined;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.data.title,
+  description: guide.data.description,
+  datePublished: guide.data.date.toISOString(),
+  dateModified: (guide.data.updated ?? guide.data.date).toISOString(),
+  author: { "@type": "Organization", name: SITE.name },
+  publisher: { "@type": "Organization", name: SITE.name },
+};
+---
+
+<Layout
+  title={guide.data.title}
+  description={guide.data.description}
+  path={`/guides/${guide.id}`}
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <nav class="mb-4 text-sm text-slate-400">
+      <a href="/" class="hover:text-brand-700">Home</a>
+      <span class="mx-1.5">/</span>
+      <a href="/guides" class="hover:text-brand-700">Guides</a>
+    </nav>
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">{guide.data.title}</h1>
+      <p class="mt-2 text-sm text-slate-400">
+        Published {fmt(guide.data.date)}{guide.data.updated && ` · Updated ${fmt(guide.data.updated)}`}
+      </p>
+    </header>
+
+    <article class="prose-money">
+      <Content />
+    </article>
+
+    <AdSlot />
+
+    {related && (
+      <a href={`/calculators/${related.slug}`} class="mt-10 block rounded-2xl border border-brand-200 bg-brand-50 p-5 transition hover:shadow-md">
+        <div class="text-xs font-semibold uppercase tracking-wide text-brand-700">Try the tool</div>
+        <div class="mt-1 text-lg font-bold text-slate-900">{related.title}</div>
+        <p class="mt-1 text-sm text-slate-600">{related.blurb}</p>
+      </a>
+    )}
+  </div>
+</Layout>

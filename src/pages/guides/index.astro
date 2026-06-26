@@ -1,0 +1,37 @@
+---
+import Layout from "../../components/Layout.astro";
+import { getCollection } from "astro:content";
+
+const guides = (await getCollection("guides"))
+  .filter((g) => !g.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Layout
+  title="Money Guides"
+  description="Plain-English guides to investing, debt, mortgages, budgeting and retirement — written to be genuinely useful, not to waste your time."
+  path="/guides"
+>
+  <div class="mx-auto max-w-4xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Money guides</h1>
+    <p class="mt-3 text-lg text-slate-600">
+      Clear, practical explainers on the money topics our calculators cover. No
+      filler, no hype.
+    </p>
+
+    <div class="mt-10 space-y-4">
+      {guides.map((g) => (
+        <a href={`/guides/${g.id}`} class="card block transition hover:-translate-y-0.5 hover:shadow-md">
+          <div class="text-xs font-medium uppercase tracking-wide text-slate-400">{fmt(g.data.date)}</div>
+          <h2 class="mt-1 text-xl font-bold text-slate-900">{g.data.title}</h2>
+          <p class="mt-1.5 text-slate-600">{g.data.description}</p>
+          <span class="mt-3 inline-block text-sm font-semibold text-brand-600">Read guide →</span>
+        </a>
+      ))}
+      {guides.length === 0 && <p class="text-slate-500">Guides are coming soon.</p>}
+    </div>
+  </div>
+</Layout>

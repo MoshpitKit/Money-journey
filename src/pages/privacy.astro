@@ -1,0 +1,63 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../config.ts";
+---
+
+<Layout title="Privacy Policy" description="How Money Journey handles your data. Short version: we keep almost none of it." path="/privacy">
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Privacy Policy</h1>
+    <p class="mt-2 text-sm text-slate-400">Last updated: June 2026</p>
+    <div class="prose-money mt-6">
+      <p>
+        <strong>The short version:</strong> our calculators run entirely in your
+        browser. The numbers you type are never sent to us or stored on a server.
+      </p>
+
+      <h2>Information we do not collect</h2>
+      <p>
+        We do not require an account, and we do not ask for your name, email, or
+        any financial details to use the calculators. Anything you enter into a
+        calculator stays on your device.
+      </p>
+
+      <h2>Analytics</h2>
+      <p>
+        We may use privacy-respecting analytics to understand which pages are
+        popular and how the site performs. Where possible we use cookieless
+        analytics that do not track individuals across sites. Aggregate data (like
+        total page views) helps us improve the tools.
+      </p>
+
+      <h2>Advertising &amp; affiliate partners</h2>
+      <p>
+        If advertising is enabled, third-party ad networks (such as Google
+        AdSense) may use cookies or similar technologies to serve and measure ads.
+        These partners operate under their own privacy policies. You can usually
+        manage ad personalization through your browser settings or the ad
+        network's preferences page. When you click an affiliate link, the partner
+        site may set its own cookies to attribute the referral.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        The core site does not require cookies to function. Any cookies present
+        come from optional analytics or advertising partners as described above.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        You can block cookies and third-party scripts in your browser at any time;
+        the calculators will still work. You can also use private/incognito mode.
+      </p>
+
+      <h2>Children</h2>
+      <p>This site is intended for adults and is not directed at children under 13.</p>
+
+      <h2>Changes &amp; contact</h2>
+      <p>
+        We may update this policy as the site evolves. Questions? Email
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </div>
+</Layout>

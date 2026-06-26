@@ -1,0 +1,43 @@
+name: Deploy to Cloudflare Pages
+
+# Optional automated deploy. The EASIEST path is Cloudflare Pages' built-in Git
+# integration (no secrets, auto-builds on push — see README). This workflow is
+# here if you'd rather deploy from CI.
+#
+# To enable: add two repo secrets under Settings → Secrets → Actions:
+#   CLOUDFLARE_API_TOKEN   (token with "Cloudflare Pages: Edit" permission)
+#   CLOUDFLARE_ACCOUNT_ID  (from the Cloudflare dashboard URL)
+# Then set PROJECT_NAME below to your Pages project name.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  PROJECT_NAME: money-journey
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Skips cleanly if you haven't added the API token yet.
+    if: ${{ github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish to Cloudflare Pages
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ env.PROJECT_NAME }}

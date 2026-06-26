@@ -1,0 +1,57 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../config.ts";
+---
+
+<Layout title="Advertiser Disclosure" description="How Money Journey makes money and our advertising and affiliate relationships." path="/disclosure">
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Advertiser Disclosure</h1>
+    <div class="prose-money mt-6">
+      <p>
+        {SITE.name} is a free resource. To keep it that way, we earn money in two
+        ways, and we want to be completely transparent about both.
+      </p>
+
+      <h2>Display advertising</h2>
+      <p>
+        We may show ads from third-party advertising networks. These ads are
+        clearly labeled and are not endorsements. Advertisers do not influence the
+        results our calculators produce.
+      </p>
+
+      <h2>Affiliate / partner links</h2>
+      <p>
+        Some links on this site are affiliate links. If you click one and open an
+        account or make a purchase, we may receive a commission from that company —
+        at <strong>no additional cost to you</strong>. This is standard across the
+        personal-finance industry and is how most free money tools fund themselves.
+      </p>
+      <p>
+        We only feature offers we believe are broadly reasonable (for example,
+        high-yield savings accounts, low-cost brokerages, or competitive lenders).
+        However, an offer appearing here is <strong>not</strong> a recommendation
+        tailored to your circumstances, and we may not cover every available
+        product in the market. Always compare options and read the terms before
+        signing up.
+      </p>
+
+      <h2>Editorial independence</h2>
+      <p>
+        Our calculators use standard financial formulas and are not altered to
+        favor any advertiser or partner. The educational content on this site
+        reflects our honest understanding of the topic, independent of any
+        commercial relationship.
+      </p>
+
+      <h2>Not financial advice</h2>
+      <p>
+        Nothing on {SITE.name} is personalized financial, tax, investment, or legal
+        advice. Consult a qualified professional before making decisions.
+      </p>
+
+      <p class="text-sm text-slate-500">
+        Questions about this disclosure? Contact <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </div>
+</Layout>
