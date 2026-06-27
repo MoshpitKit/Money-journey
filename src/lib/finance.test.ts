@@ -8,6 +8,7 @@ import {
   retirement,
   savingsGoal,
   budget5030020,
+  coastFire,
 } from "./finance.ts";
 
 const near = (a: number, b: number, tol = 1) => Math.abs(a - b) <= tol;
@@ -212,5 +213,75 @@ describe("budget5030020", () => {
     expect(b.needs).toBe(2500);
     expect(b.wants).toBe(1500);
     expect(b.savings).toBe(1000);
+  });
+});
+
+describe("coastFire", () => {
+  it("computes the FIRE number from spending and withdrawal rate", () => {
+    const r = coastFire({
+      currentAge: 30,
+      retirementAge: 60,
+      annualSpending: 40000,
+      currentInvested: 0,
+      realReturnPercent: 5,
+      withdrawalRatePercent: 4,
+    });
+    expect(r.fireNumber).toBe(1000000); // 40k / 0.04
+  });
+
+  it("coast number today is the FIRE number discounted by the real return", () => {
+    // 1,000,000 / 1.05^30 ≈ 231,377
+    const r = coastFire({
+      currentAge: 30,
+      retirementAge: 60,
+      annualSpending: 40000,
+      currentInvested: 0,
+      realReturnPercent: 5,
+    });
+    expect(near(r.coastNumberToday, 231377, 50)).toBe(true);
+  });
+
+  it("flags someone who has already coasted", () => {
+    const r = coastFire({
+      currentAge: 30,
+      retirementAge: 60,
+      annualSpending: 40000,
+      currentInvested: 300000, // above the ~231k coast number
+      realReturnPercent: 5,
+    });
+    expect(r.hasCoasted).toBe(true);
+    expect(r.shortfallToday).toBe(0);
+    expect(r.coastAge).toBe(30); // already there now
+    expect(r.projectedNoContrib).toBeGreaterThan(r.fireNumber);
+  });
+
+  it("reports a shortfall and a future coast age for someone behind", () => {
+    const r = coastFire({
+      currentAge: 30,
+      retirementAge: 60,
+      annualSpending: 40000,
+      currentInvested: 50000,
+      realReturnPercent: 5,
+      monthlyContribution: 1000,
+    });
+    expect(r.hasCoasted).toBe(false);
+    expect(r.shortfallToday).toBeGreaterThan(0);
+    expect(r.coastAge).not.toBeNull();
+    expect(r.coastAge!).toBeGreaterThan(30);
+    expect(r.coastAge!).toBeLessThan(60);
+  });
+
+  it("builds a schedule from current age to retirement", () => {
+    const r = coastFire({
+      currentAge: 40,
+      retirementAge: 65,
+      annualSpending: 50000,
+      currentInvested: 100000,
+      realReturnPercent: 5,
+    });
+    expect(r.schedule[0].age).toBe(40);
+    expect(r.schedule.at(-1)!.age).toBe(65);
+    // coast target rises toward the FIRE number as you approach retirement
+    expect(r.schedule.at(-1)!.coastTarget).toBeCloseTo(r.fireNumber, 0);
   });
 });

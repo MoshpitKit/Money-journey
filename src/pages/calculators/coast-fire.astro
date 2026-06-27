@@ -1,0 +1,76 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import CoastFireCalc from "../../components/calculators/CoastFireCalc.tsx";
+
+const faqs = [
+  {
+    q: "What is Coast FIRE?",
+    a: "Coast FIRE is the point where you have enough invested that, without adding another dollar, compound growth alone will reach your full retirement number by your target retirement age. After that, you only need to earn enough to cover your current expenses.",
+  },
+  {
+    q: "How is the coast number calculated?",
+    a: "First find your FIRE number: annual retirement spending divided by your withdrawal rate (4% by default, i.e. 25× spending). Then discount it back to today using your expected real return: coast number = FIRE number ÷ (1 + real return)^years to retirement.",
+  },
+  {
+    q: "Why use a 'real' return instead of a normal return?",
+    a: "A real (inflation-adjusted) return keeps everything in today's dollars, so your spending target doesn't need a separate inflation adjustment. A stock-heavy portfolio is often assumed to return around 5% real (roughly 7–8% nominal minus 2–3% inflation), but you should test your own assumption.",
+  },
+  {
+    q: "What's the difference between Coast FIRE and regular FIRE?",
+    a: "Full FIRE means you have ~25× your expenses and can stop working entirely. Coast FIRE means your existing investments will grow into that number on their own — you still work to pay today's bills, but you no longer need to save for retirement.",
+  },
+  {
+    q: "Is Coast FIRE guaranteed?",
+    a: "No. It assumes your real return materializes over decades, your spending estimate holds, and you don't face major shocks like a market crash right before retirement or a loss of health coverage. Treat your coast number as a living target and revisit it every year or two.",
+  },
+];
+---
+
+<CalculatorPage
+  seoTitle="Coast FIRE Calculator (Free) — Find Your Coast Number"
+  metaDescription="Free Coast FIRE calculator: find out if your investments will grow into your retirement number on their own — and the exact age you can stop contributing."
+  slug="coast-fire"
+  intro="Find your Coast FIRE number — the amount you need invested today so that, with no further contributions, your money grows into a full retirement by your target age."
+  placement="retirement"
+  faqs={faqs}
+>
+  <CoastFireCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>What "coasting" really means</h2>
+    <p>
+      Coast FIRE is the milestone where the hard part of saving is done. You've
+      invested enough that compounding will carry your portfolio to your full
+      retirement number on its own — even if you never contribute another dollar.
+      You still need a paycheck to cover today's bills, but your retirement is
+      effectively on autopilot.
+    </p>
+
+    <h2>The two-step math</h2>
+    <p>
+      First, your <strong>FIRE number</strong> — the nest egg that funds your
+      retirement — is your annual spending divided by your withdrawal rate. At the
+      standard 4% rate that's the same as <strong>25× your annual spending</strong>.
+      Then your <strong>coast number</strong> is that FIRE number discounted back to
+      today by your expected real return:
+      <code>coast = FIRE ÷ (1 + real return)^years</code>.
+    </p>
+
+    <h2>Why starting early is everything</h2>
+    <p>
+      Because the coast number is discounted over the years until retirement, the
+      younger you are, the smaller it is. A 25-year-old might need roughly half
+      what a 45-year-old needs for the very same goal — pure compounding. Slide
+      your age down in the calculator and watch the coast number drop.
+    </p>
+
+    <h2>What to do once you've coasted</h2>
+    <p>
+      Hitting Coast FIRE buys options: switch to more meaningful but lower-paying
+      work, go part-time, freelance, or take a sabbatical. Just remember the
+      assumptions behind it — returns, your spending estimate, and stable health
+      coverage — and revisit your number every year or two. For the full concept,
+      read <a href="/guides/coast-fire-explained">Coast FIRE: What It Is and How to Calculate It</a>.
+    </p>
+  </Fragment>
+</CalculatorPage>

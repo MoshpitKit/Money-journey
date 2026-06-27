@@ -55,6 +55,19 @@ export const CALCULATORS: CalcMeta[] = [
     keywords: ["retirement calculator", "FIRE calculator", "401k calculator"],
   },
   {
+    slug: "coast-fire",
+    title: "Coast FIRE Calculator",
+    short: "Coast FIRE",
+    blurb:
+      "Find out if you've saved enough to stop contributing and still retire on time.",
+    icon: "M5 19l7-14 7 14M5 19l7-4 7 4",
+    keywords: [
+      "coast fire calculator",
+      "coast fi calculator",
+      "barista fire calculator",
+    ],
+  },
+  {
     slug: "savings-goal",
     title: "Savings Goal Calculator",
     short: "Savings Goal",

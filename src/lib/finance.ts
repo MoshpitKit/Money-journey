@@ -495,6 +495,108 @@ export function budget5030020(
 }
 
 // ---------------------------------------------------------------------------
+// Coast FIRE
+// ---------------------------------------------------------------------------
+
+export interface CoastFireInput {
+  currentAge: number;
+  retirementAge: number;
+  /** Annual spending you want in retirement, in today's dollars. */
+  annualSpending: number;
+  /** What you already have invested. */
+  currentInvested: number;
+  /** Real (inflation-adjusted) annual return %, e.g. 5. Keeps everything in today's dollars. */
+  realReturnPercent: number;
+  /** Optional ongoing monthly contribution to find the "coast age". Default 0. */
+  monthlyContribution?: number;
+  /** Safe withdrawal rate %, default 4. */
+  withdrawalRatePercent?: number;
+}
+
+export interface CoastFireResult {
+  /** Nest egg target at retirement (today's dollars). */
+  fireNumber: number;
+  /** Amount you'd need invested TODAY to coast (no more contributions) to FIRE. */
+  coastNumberToday: number;
+  /** Your current invested balance grown to retirement with no further contributions. */
+  projectedNoContrib: number;
+  /** True if you've already hit Coast FIRE and could stop contributing today. */
+  hasCoasted: boolean;
+  /** How much more you'd need invested today to coast (0 if already coasting). */
+  shortfallToday: number;
+  /** With monthlyContribution, the age you can stop contributing and still coast. Null if never within range. */
+  coastAge: number | null;
+  /** Yearly series for charting: your balance vs the coast target at each age. */
+  schedule: { age: number; balance: number; coastTarget: number }[];
+}
+
+/**
+ * Coast FIRE: the point where your invested money is enough to grow into your
+ * full retirement number on its own, without any further contributions.
+ * Works in today's (real) dollars by using a real return rate.
+ */
+export function coastFire(input: CoastFireInput): CoastFireResult {
+  const {
+    currentAge,
+    retirementAge,
+    annualSpending,
+    currentInvested,
+    realReturnPercent,
+    monthlyContribution = 0,
+    withdrawalRatePercent = 4,
+  } = input;
+
+  const r = asRate(realReturnPercent);
+  const yearsToRetire = Math.max(retirementAge - currentAge, 0);
+  const fireNumber = annualSpending / asRate(withdrawalRatePercent);
+  const grow = (years: number) => Math.pow(1 + r, years);
+
+  const coastNumberToday = fireNumber / grow(yearsToRetire);
+  const projectedNoContrib = currentInvested * grow(yearsToRetire);
+  const hasCoasted = projectedNoContrib >= fireNumber;
+
+  // Simulate monthly with contributions to find the first age at which the
+  // balance, left to coast to retirement, would reach the FIRE number.
+  const g = Math.pow(1 + r, 1 / 12);
+  let balance = currentInvested;
+  let coastAge: number | null = null;
+  const totalMonths = Math.round(yearsToRetire * 12);
+  for (let m = 0; m <= totalMonths; m++) {
+    const age = currentAge + m / 12;
+    const remainingYears = retirementAge - age;
+    if (balance * grow(remainingYears) >= fireNumber - 0.005) {
+      coastAge = Math.round(age * 10) / 10;
+      break;
+    }
+    balance = balance * g + monthlyContribution;
+  }
+
+  // Yearly schedule for the chart.
+  const schedule: CoastFireResult["schedule"] = [];
+  let bal = currentInvested;
+  for (let y = 0; y <= yearsToRetire; y++) {
+    const age = currentAge + y;
+    schedule.push({
+      age,
+      balance: round2(bal),
+      coastTarget: round2(fireNumber / grow(retirementAge - age)),
+    });
+    // advance one year with monthly contributions
+    for (let m = 0; m < 12; m++) bal = bal * g + monthlyContribution;
+  }
+
+  return {
+    fireNumber: round2(fireNumber),
+    coastNumberToday: round2(coastNumberToday),
+    projectedNoContrib: round2(projectedNoContrib),
+    hasCoasted,
+    shortfallToday: round2(Math.max(coastNumberToday - currentInvested, 0)),
+    coastAge,
+    schedule,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------
 
