@@ -88,7 +88,7 @@ the compound-interest and savings-goal results — where buyer intent is highest
 
 ### B. Display ads
 1. **Start:** Apply to **Google AdSense** (<https://adsense.com>). Needs a live
-   site with real content — you already have 6 tools + 7 guides + legal pages,
+   site with real content — you already have 6 tools + 12 guides + legal pages,
    which is what they look for.
 2. When approved, put your publisher id in [`src/config.ts`](src/config.ts):
    ```ts
