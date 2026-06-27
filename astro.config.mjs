@@ -5,9 +5,14 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
 import { SITE } from "./src/config.ts";
 
+// When deploying to a subpath (e.g. GitHub Pages project site), set
+// PAGES_BASE="/money-journey". Left unset for root deploys (custom domain / Cloudflare).
+const base = process.env.PAGES_BASE || undefined;
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
+  base,
   integrations: [
     preact({ compat: true }),
     sitemap({

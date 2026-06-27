@@ -10,11 +10,11 @@
 export const SITE = {
   name: "PennyGrove",
   /**
-   * Production URL (no trailing slash). Set to your custom domain.
-   * If you're running only on the free Cloudflare *.pages.dev URL for now,
-   * change this to that URL instead so canonicals/sitemap match what's live.
+   * Production origin (no trailing slash). Defaults to the custom domain, but
+   * can be overridden at build time via the PUBLIC_SITE_URL env var (e.g. the
+   * GitHub Pages deploy sets it to https://moshpitkit.github.io).
    */
-  url: "https://pennygrove.com",
+  url: process.env.PUBLIC_SITE_URL ?? "https://pennygrove.com",
   tagline: "Grow your money with confidence.",
   description:
     "Free, accurate money calculators and clear guides to help you grow your savings, crush debt, and plan for the future. No sign-up, no jargon.",
