@@ -1,0 +1,74 @@
+---
+import CalculatorPage from "../../components/CalculatorPage.astro";
+import HomeAffordabilityCalc from "../../components/calculators/HomeAffordabilityCalc.tsx";
+
+const faqs = [
+  {
+    q: "How much house can I afford on my salary?",
+    a: "A common guideline is the 28/36 rule: keep your total monthly housing payment under 28% of your gross monthly income, and all your debt payments (including the mortgage) under 36%. This calculator works backwards from those limits — plus taxes, insurance and PMI — to the maximum home price.",
+  },
+  {
+    q: "What is the 28/36 rule?",
+    a: "It's two limits lenders use. The 28% 'front-end' ratio caps your housing payment at 28% of gross monthly income. The 36% 'back-end' ratio caps all monthly debt at 36%. Your affordable price is set by whichever limit you hit first.",
+  },
+  {
+    q: "Does this include property tax, insurance and PMI?",
+    a: "Yes. The estimate includes principal and interest, property tax, homeowners insurance, optional HOA dues, and PMI when your down payment is under 20%. That full PITI figure is what's measured against the 28/36 limits.",
+  },
+  {
+    q: "How can I afford more house?",
+    a: "Three levers move the number most: increase your down payment, pay off existing monthly debts (each $400 payment you clear frees room under the 36% cap), or raise your income. A lower interest rate helps too.",
+  },
+  {
+    q: "Should I borrow the maximum I'm approved for?",
+    a: "Usually not. Lenders often approve more than is comfortable. Buying below your max leaves room for retirement savings, maintenance, and life. Many buyers aim to keep total housing closer to 25% of take-home pay.",
+  },
+];
+---
+
+<CalculatorPage
+  seoTitle="Home Affordability Calculator — How Much House Can I Afford?"
+  metaDescription="Free home affordability calculator: see how much house you can afford on your income using the 28/36 rule, including taxes, insurance, PMI and HOA."
+  slug="home-affordability"
+  intro="Find the most expensive home you can comfortably afford. Enter your income, debts and down payment, and we'll apply the 28/36 rule — including taxes, insurance and PMI — to a maximum price."
+  placement="mortgage"
+  faqs={faqs}
+>
+  <HomeAffordabilityCalc slot="calculator" client:load />
+
+  <Fragment slot="content">
+    <h2>Start with what you can sustain, not what you're approved for</h2>
+    <p>
+      Lenders size your loan against your gross income, but you live on take-home
+      pay — after taxes, retirement contributions and everyday life. This
+      calculator uses the time-tested <strong>28/36 rule</strong> to find a price
+      that fits your real budget, then shows the full monthly payment behind it.
+    </p>
+
+    <h2>How the 28/36 rule works</h2>
+    <p>
+      The <strong>28% front-end ratio</strong> caps your total housing payment at
+      28% of gross monthly income. The <strong>36% back-end ratio</strong> caps
+      all your debt — housing plus car loans, student loans and minimum card
+      payments — at 36%. Your affordable price is set by whichever limit binds
+      first, which is why paying down other debts can raise your budget more than
+      shopping for a slightly better rate.
+    </p>
+
+    <h2>Don't forget the full cost of owning</h2>
+    <p>
+      The maximum price here reflects principal, interest, property tax, insurance,
+      PMI and HOA — but buying also takes closing costs (2–5% of the price) and a
+      cash reserve you keep <em>after</em> closing. For the full picture, read
+      <a href="/guides/how-much-house-can-you-afford">How Much House Can You Afford?</a>
+      and <a href="/guides/how-much-to-save-for-a-house">How Much Should You Save for a Down Payment?</a>
+    </p>
+
+    <h2>Once you have a price</h2>
+    <p>
+      Take your maximum price to the <a href="/calculators/mortgage">mortgage
+      calculator</a> to test different down payments, rates and extra payments —
+      and to see how much interest you'd pay over the life of the loan.
+    </p>
+  </Fragment>
+</CalculatorPage>

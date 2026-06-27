@@ -33,6 +33,19 @@ export const CALCULATORS: CalcMeta[] = [
     keywords: ["mortgage calculator", "home loan payment", "PITI calculator"],
   },
   {
+    slug: "home-affordability",
+    title: "Home Affordability Calculator",
+    short: "Home Affordability",
+    blurb:
+      "Find the most expensive home you can afford on your income using the 28/36 rule.",
+    icon: "M3 12l9-9 9 9M5 10v10h14V10M9 21v-6h6v6",
+    keywords: [
+      "how much house can i afford",
+      "home affordability calculator",
+      "house affordability calculator",
+    ],
+  },
+  {
     slug: "debt-payoff",
     title: "Debt Payoff Calculator",
     short: "Debt Payoff",

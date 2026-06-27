@@ -9,6 +9,7 @@ import {
   savingsGoal,
   budget5030020,
   coastFire,
+  homeAffordability,
 } from "./finance.ts";
 
 const near = (a: number, b: number, tol = 1) => Math.abs(a - b) <= tol;
@@ -283,5 +284,52 @@ describe("coastFire", () => {
     expect(r.schedule.at(-1)!.age).toBe(65);
     // coast target rises toward the FIRE number as you approach retirement
     expect(r.schedule.at(-1)!.coastTarget).toBeCloseTo(r.fireNumber, 0);
+  });
+});
+
+describe("homeAffordability", () => {
+  const base = {
+    annualIncome: 120000,
+    monthlyDebts: 0,
+    downPayment: 60000,
+    annualRatePercent: 6.5,
+    termYears: 30,
+  };
+
+  it("respects the front-end (28%) payment ceiling", () => {
+    const r = homeAffordability(base);
+    const grossMonthly = base.annualIncome / 12;
+    // total housing payment should not exceed 28% of gross income (no debts → front-end binds)
+    expect(r.totalMonthly).toBeLessThanOrEqual(grossMonthly * 0.28 + 1);
+    expect(r.limitedBy).toBe("front-end");
+    expect(r.maxHomePrice).toBeGreaterThan(base.downPayment);
+  });
+
+  it("more income affords more house", () => {
+    const low = homeAffordability({ ...base, annualIncome: 80000 });
+    const high = homeAffordability({ ...base, annualIncome: 160000 });
+    expect(high.maxHomePrice).toBeGreaterThan(low.maxHomePrice);
+  });
+
+  it("existing debts reduce affordability and can make the back-end ratio bind", () => {
+    const noDebt = homeAffordability(base);
+    const withDebt = homeAffordability({ ...base, monthlyDebts: 1500 });
+    expect(withDebt.maxHomePrice).toBeLessThan(noDebt.maxHomePrice);
+    expect(withDebt.limitedBy).toBe("back-end");
+    const grossMonthly = base.annualIncome / 12;
+    // total debt (housing + existing) stays within 36%
+    expect(withDebt.totalMonthly + 1500).toBeLessThanOrEqual(grossMonthly * 0.36 + 1);
+  });
+
+  it("adds PMI when the down payment is under 20%", () => {
+    const r = homeAffordability({ ...base, downPayment: 10000 });
+    expect(r.downPaymentPercent).toBeLessThan(20);
+    expect(r.monthlyPmi).toBeGreaterThan(0);
+  });
+
+  it("no PMI with a large down payment", () => {
+    const r = homeAffordability({ ...base, annualIncome: 200000, downPayment: 200000 });
+    expect(r.downPaymentPercent).toBeGreaterThanOrEqual(20);
+    expect(r.monthlyPmi).toBe(0);
   });
 });

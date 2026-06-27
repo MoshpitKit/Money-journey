@@ -8,7 +8,7 @@ running costs and near-zero maintenance.
 
 - ⚡️ **Stack:** [Astro](https://astro.build) (static) + Preact islands + Tailwind v4
 - 💸 **Hosting cost:** **$0** (Cloudflare Pages free tier — no server, no database)
-- 🧮 **7 calculators**, all on transparent, **unit-tested** financial math
+- 🧮 **8 calculators**, all on transparent, **unit-tested** financial math
 - 📈 **SEO-ready:** sitemap, JSON-LD (WebApp + FAQ + Breadcrumb), OG tags, fast static pages
 - 🤝 **Monetization built in:** affiliate slots inside results + ad slots, all **off until you add real accounts**
 
@@ -88,7 +88,7 @@ the compound-interest and savings-goal results — where buyer intent is highest
 
 ### B. Display ads
 1. **Start:** Apply to **Google AdSense** (<https://adsense.com>). Needs a live
-   site with real content — you already have 7 tools + 17 guides + legal pages,
+   site with real content — you already have 8 tools + 21 guides + legal pages,
    which is what they look for.
 2. When approved, put your publisher id in [`src/config.ts`](src/config.ts):
    ```ts

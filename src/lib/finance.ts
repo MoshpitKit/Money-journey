@@ -495,6 +495,115 @@ export function budget5030020(
 }
 
 // ---------------------------------------------------------------------------
+// Home affordability (28/36 rule, reverse of the mortgage calc)
+// ---------------------------------------------------------------------------
+
+export interface HomeAffordabilityInput {
+  /** Gross annual household income. */
+  annualIncome: number;
+  /** Existing monthly debt payments (car, student loans, min credit cards). */
+  monthlyDebts: number;
+  downPayment: number;
+  annualRatePercent: number;
+  termYears: number;
+  /** Annual property tax as % of home value. Default 1.1. */
+  propertyTaxRatePercent?: number;
+  /** Annual homeowners insurance as % of home value. Default 0.4. */
+  insuranceRatePercent?: number;
+  hoaMonthly?: number;
+  /** Max housing payment as % of gross monthly income. Default 28. */
+  frontEndRatioPercent?: number;
+  /** Max total debt as % of gross monthly income. Default 36. */
+  backEndRatioPercent?: number;
+}
+
+export interface HomeAffordabilityResult {
+  maxHomePrice: number;
+  maxLoan: number;
+  /** The PITI ceiling the limits allow. */
+  maxMonthlyPayment: number;
+  limitedBy: "front-end" | "back-end";
+  principalAndInterest: number;
+  monthlyTax: number;
+  monthlyInsurance: number;
+  monthlyPmi: number;
+  hoaMonthly: number;
+  totalMonthly: number;
+  downPaymentPercent: number;
+}
+
+/**
+ * Work backwards from income to the most expensive home you can afford under
+ * the 28/36 rule, accounting for taxes, insurance, PMI and HOA (which all scale
+ * with the home price, so we solve for the loan algebraically).
+ */
+export function homeAffordability(input: HomeAffordabilityInput): HomeAffordabilityResult {
+  const {
+    annualIncome,
+    monthlyDebts,
+    downPayment,
+    annualRatePercent,
+    termYears,
+    propertyTaxRatePercent = 1.1,
+    insuranceRatePercent = 0.4,
+    hoaMonthly = 0,
+    frontEndRatioPercent = 28,
+    backEndRatioPercent = 36,
+  } = input;
+
+  const grossMonthly = annualIncome / 12;
+  const frontCap = grossMonthly * asRate(frontEndRatioPercent);
+  const backCap = grossMonthly * asRate(backEndRatioPercent) - monthlyDebts;
+  const maxPITI = Math.max(Math.min(frontCap, backCap), 0);
+  const limitedBy: "front-end" | "back-end" = frontCap <= backCap ? "front-end" : "back-end";
+
+  const i = asRate(annualRatePercent) / 12;
+  const n = Math.round(termYears * 12);
+  const factor = n <= 0 ? 0 : i === 0 ? 1 / n : i / (1 - Math.pow(1 + i, -n)); // P&I per $ of loan
+  const t = asRate(propertyTaxRatePercent) / 12; // monthly tax per $ of home value
+  const ins = asRate(insuranceRatePercent) / 12;
+  const pmiRate = 0.005 / 12; // ~0.5%/yr of loan when <20% down
+
+  const solveLoan = (withPmi: boolean) => {
+    const denom = factor + t + ins + (withPmi ? pmiRate : 0);
+    if (denom <= 0) return 0;
+    const loan = (maxPITI - downPayment * (t + ins) - hoaMonthly) / denom;
+    return Math.max(loan, 0);
+  };
+
+  // First solve without PMI; if the resulting down payment is under 20%, redo with PMI.
+  let loan = solveLoan(false);
+  let homePrice = loan + downPayment;
+  let pmiApplies = homePrice > 0 && downPayment / homePrice < 0.2;
+  if (pmiApplies) {
+    loan = solveLoan(true);
+    homePrice = loan + downPayment;
+    pmiApplies = homePrice > 0 && downPayment / homePrice < 0.2;
+  }
+
+  const principalAndInterest = loan * factor;
+  const monthlyTax = homePrice * t;
+  const monthlyInsurance = homePrice * ins;
+  const monthlyPmi = pmiApplies ? loan * pmiRate : 0;
+  const totalMonthly =
+    principalAndInterest + monthlyTax + monthlyInsurance + monthlyPmi + hoaMonthly;
+
+  return {
+    maxHomePrice: round2(homePrice),
+    maxLoan: round2(loan),
+    maxMonthlyPayment: round2(maxPITI),
+    limitedBy,
+    principalAndInterest: round2(principalAndInterest),
+    monthlyTax: round2(monthlyTax),
+    monthlyInsurance: round2(monthlyInsurance),
+    monthlyPmi: round2(monthlyPmi),
+    hoaMonthly: round2(hoaMonthly),
+    totalMonthly: round2(totalMonthly),
+    downPaymentPercent: homePrice > 0 ? round2((downPayment / homePrice) * 100) : 0,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Coast FIRE
 // ---------------------------------------------------------------------------
 

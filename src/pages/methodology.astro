@@ -1,0 +1,124 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../config.ts";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Methodology",
+  url: new URL("/methodology", SITE.url).href,
+  publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
+};
+---
+
+<Layout
+  title="Calculator Methodology"
+  description="How PennyGrove's calculators work: the exact formulas, assumptions, and the automated tests that verify every result."
+  path="/methodology"
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Methodology</h1>
+    <p class="mt-2 text-sm text-slate-400">Last reviewed: June 2026</p>
+    <div class="prose-money mt-6">
+      <p>
+        We believe a money calculator is only worth using if you can trust the
+        math. So here's exactly how every PennyGrove calculator works — the
+        formulas, the assumptions, and how we verify the results. Nothing is a
+        black box.
+      </p>
+
+      <h2>Every calculation is unit-tested</h2>
+      <p>
+        Our calculators are built on a single, shared financial-math library of
+        pure functions. That library is covered by an automated test suite that
+        pins each formula to known, independently-verifiable results (for example,
+        a $1,000 lump sum at 10% compounded annually for 10 years must equal
+        $2,593.74). Tests run automatically on every change before it can go live,
+        so a math regression can't reach you.
+      </p>
+
+      <h2>The formulas we use</h2>
+
+      <h3>Compound interest &amp; investment growth</h3>
+      <p>
+        Future value is computed month by month. A nominal annual rate compounded
+        <em>m</em> times per year is converted to an effective monthly growth
+        factor, then applied to the balance each month alongside any contributions.
+        The lump-sum case reduces to the standard
+        <code>FV = P × (1 + r/n)^(n·t)</code>.
+      </p>
+
+      <h3>Mortgage &amp; loan payments</h3>
+      <p>
+        Monthly principal and interest use the standard amortizing-loan formula
+        <code>M = P · i / (1 − (1 + i)^−N)</code>, where <em>i</em> is the monthly
+        rate and <em>N</em> the number of payments. We then build a full
+        amortization schedule and add property tax, insurance, PMI (estimated at
+        ~0.5%/yr of the loan when the down payment is under 20%) and HOA to show
+        the complete PITI payment.
+      </p>
+
+      <h3>Home affordability</h3>
+      <p>
+        We work backwards from the <strong>28/36 rule</strong> — housing ≤ 28% of
+        gross monthly income, total debt ≤ 36% — to the maximum payment, then solve
+        algebraically for the loan and price (since taxes, insurance and PMI all
+        scale with the home value).
+      </p>
+
+      <h3>Debt payoff (snowball &amp; avalanche)</h3>
+      <p>
+        We simulate month by month: interest accrues on each balance, minimum
+        payments are applied, and any leftover budget is directed to the target
+        debt — smallest balance first (snowball) or highest APR first (avalanche) —
+        rolling freed-up payments forward as each debt is cleared.
+      </p>
+
+      <h3>Retirement, FIRE &amp; Coast FIRE</h3>
+      <p>
+        The FIRE number is your desired annual income divided by a safe withdrawal
+        rate (4% by default — the &ldquo;25× expenses&rdquo; guideline). Retirement
+        projections grow current savings plus contributions at your expected
+        return and adjust the income target for inflation. Coast FIRE discounts the
+        FIRE number back to today using a <em>real</em> (inflation-adjusted) return,
+        so it's expressed in today's dollars.
+      </p>
+
+      <h3>Savings goal &amp; budget</h3>
+      <p>
+        The savings-goal tool solves the annuity future-value formula for the
+        required monthly contribution. The budget tool applies the 50/30/20
+        framework (or your custom split) to take-home pay.
+      </p>
+
+      <h2>Assumptions &amp; limitations</h2>
+      <ul>
+        <li>Results are <strong>estimates</strong> based on the figures you enter and the assumptions on each page.</li>
+        <li>Returns and rates are not guaranteed; historical averages (like a ~7% long-run stock return) are references, not promises.</li>
+        <li>We don't model taxes on investment gains, variable-rate loans, or every local fee. Real outcomes vary.</li>
+        <li>Calculators run entirely in your browser — your numbers are never sent to a server.</li>
+      </ul>
+
+      <h2>Sources &amp; standards</h2>
+      <p>
+        The formulas above are standard financial mathematics used by banks and
+        planners. Conceptual guidance in our articles draws on widely-accepted
+        frameworks (the 4% rule from the Trinity Study and William Bengen's
+        research; the 50/30/20 rule; the 28/36 lending guideline). For
+        authoritative figures that change year to year — such as IRS contribution
+        limits — we direct readers to the primary source rather than quoting numbers
+        that may go stale.
+      </p>
+
+      <h2>Not financial advice</h2>
+      <p>
+        PennyGrove is an educational tools-and-information site, not a licensed
+        advisor. Nothing here is personalized financial, tax, or investment advice.
+        Confirm important decisions with a qualified professional. Found an error?
+        Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> — we take accuracy
+        seriously and fix issues quickly.
+      </p>
+    </div>
+  </div>
+</Layout>
