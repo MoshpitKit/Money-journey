@@ -10,8 +10,8 @@ name: Deploy to Cloudflare Pages
 # Then set PROJECT_NAME below to your Pages project name.
 
 on:
-  push:
-    branches: [main]
+  # Manual-only: GitHub Pages (pages.yml) is the active deploy. Enable this and
+  # add the Cloudflare secrets if you'd rather host on Cloudflare Pages.
   workflow_dispatch:
 
 env:
