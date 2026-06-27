@@ -68,6 +68,14 @@ The offer slots are already placed where intent is highest (savings offers under
 
 You set the bank/PayPal once in each platform; after that, money lands automatically every cycle. No invoicing.
 
+### Want Wise or crypto?
+
+**Wise — works.** AdSense and most affiliate networks pay by bank transfer, and Wise gives you real local bank details (USD ACH routing/account, EUR IBAN, GBP sort code, etc.). Enter those Wise details as your "bank account" in each platform's payout settings. Requirements: the payout **currency** must be one your Wise account can receive, and the **account-holder name** must match your platform account exactly. Wise then lets you hold/convert 40+ currencies and spend via its debit card. (Payoneer works the same way and is accepted by ShareASale/CJ for international payees.)
+
+**Crypto — not directly.** No mainstream network (AdSense, Ezoic, Mediavine, Impact, CJ, ShareASale) pays in crypto. Two real routes:
+1. **Convert it yourself (recommended):** receive fiat into Wise/bank, then buy crypto on an exchange (Coinbase, Kraken). Keeps your high ad/affiliate RPM; you choose when to convert.
+2. **Crypto-native ad networks:** e.g. **A-ADS** (pays Bitcoin, no signup required) or **Coinzilla**. These pay crypto directly but earn **far less** than AdSense/Mediavine for general personal-finance traffic — use as a supplement, not a replacement.
+
 ---
 
 ## 6. Maintenance — your ~20-min monthly routine

@@ -7,9 +7,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    # GitHub Pages only deploys from the default branch. Until 'main' is made the
-    # default, the default branch below is what auto-deploys on push.
-    branches: [main, "claude/affectionate-davinci-1x4tx7"]
+    # GitHub Pages only deploys from the DEFAULT branch, and triggering both it
+    # and 'main' collides in the concurrency group. So only the default branch
+    # triggers deploys. (If you later make 'main' the default, change this to main.)
+    branches: ["claude/affectionate-davinci-1x4tx7"]
   workflow_dispatch:
 
 permissions:
