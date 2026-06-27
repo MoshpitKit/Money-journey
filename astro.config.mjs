@@ -16,8 +16,8 @@ export default defineConfig({
   integrations: [
     preact({ compat: true }),
     sitemap({
-      // Embed widgets are noindex — keep them out of the sitemap.
-      filter: (page) => !page.includes("/embed/"),
+      // Embed widgets and the private hub are noindex — keep them out of the sitemap.
+      filter: (page) => !page.includes("/embed/") && !page.includes("/hub"),
       // Stamp every entry with a build-time lastmod so crawlers see freshness.
       serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
     }),

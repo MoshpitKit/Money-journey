@@ -1,0 +1,252 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../config.ts";
+
+const REPO = "https://github.com/MoshpitKit/Money-journey";
+const DEFAULT_BRANCH = "claude/affectionate-davinci-1x4tx7";
+const liveUrl = "https://moshpitkit.github.io/money-journey/";
+
+const links = [
+  { group: "Your site", items: [
+    { t: "🌐 Live site", u: liveUrl, d: "Your public site" },
+    { t: "📦 GitHub repo", u: REPO, d: "Source code" },
+    { t: "🚀 Deploys (Actions)", u: `${REPO}/actions`, d: "Build & deploy status" },
+    { t: "💵 Edit affiliate links", u: `${REPO}/edit/${DEFAULT_BRANCH}/src/lib/affiliates.ts`, d: "Paste your referral links, set live:true" },
+    { t: "⚙️ Edit config", u: `${REPO}/edit/${DEFAULT_BRANCH}/src/config.ts`, d: "AdSense id, analytics, domain" },
+  ]},
+  { group: "Get found (SEO)", items: [
+    { t: "🔍 Google Search Console", u: "https://search.google.com/search-console", d: "Verify site, submit sitemap, track clicks" },
+    { t: "🅱️ Bing Webmaster Tools", u: "https://www.bing.com/webmasters", d: "Second search engine, free" },
+    { t: "🗺️ Your sitemap", u: `${liveUrl}sitemap-index.xml`, d: "Submit this URL in Search Console" },
+  ]},
+  { group: "Make money (ads)", items: [
+    { t: "💰 Google AdSense", u: "https://adsense.google.com", d: "Apply once live (you are). $100 payout threshold" },
+    { t: "📈 Ezoic", u: "https://www.ezoic.com", d: "Apply early — no traffic minimum, higher RPM" },
+    { t: "🏆 Mediavine / Raptive", u: "https://www.mediavine.com", d: "Apply at ~50k sessions/mo — best finance RPMs" },
+  ]},
+  { group: "Make money (affiliates)", items: [
+    { t: "🤝 Impact", u: "https://impact.com", d: "Brokerages, fintech, banking" },
+    { t: "🔗 CJ Affiliate", u: "https://www.cj.com", d: "Large finance advertiser network" },
+    { t: "🛒 ShareASale", u: "https://www.shareasale.com", d: "Budgeting apps, tools" },
+    { t: "💳 FlexOffers", u: "https://www.flexoffers.com", d: "Cards, loans, savings" },
+  ]},
+  { group: "Analytics", items: [
+    { t: "📊 Plausible", u: "https://plausible.io", d: "Privacy-friendly, no cookie banner" },
+    { t: "📉 Google Analytics", u: "https://analytics.google.com", d: "Free, detailed" },
+  ]},
+];
+
+const checklist = [
+  { id: "deployed", label: "Site deployed & live", done: true },
+  { id: "default", label: "Set 'main' as default branch (Settings → Branches) for clean auto-deploy", done: false },
+  { id: "gsc", label: "Verify site in Google Search Console + submit sitemap", done: false },
+  { id: "bing", label: "Verify in Bing Webmaster Tools", done: false },
+  { id: "analytics", label: "Add Plausible or GA id to config.ts", done: false },
+  { id: "adsense", label: "Apply to Google AdSense", done: false },
+  { id: "adsense-live", label: "AdSense approved → add publisher id to config.ts", done: false },
+  { id: "aff-apply", label: "Apply to 1–2 affiliate programs", done: false },
+  { id: "aff-live", label: "Paste affiliate links into affiliates.ts, set live:true", done: false },
+  { id: "domain", label: "(Optional) Buy custom domain & point it at Pages", done: false },
+];
+
+const payouts = [
+  { name: "Google AdSense", how: "Bank transfer (EFT) or wire", when: "Monthly, around the 21st, for the prior month", min: "$100 threshold", need: "Verify address (PIN by mail), add bank + tax info" },
+  { name: "Affiliate networks", how: "PayPal / bank / check (network-dependent)", when: "Usually net-30 to net-60 after the month", min: "Often $25–$100", need: "Add payout method + tax form (W-9/W-8) in each network" },
+  { name: "Ezoic / Mediavine", how: "PayPal / bank / wire", when: "~net-30", min: "Low (e.g. $20)", need: "Payout method + tax info on their dashboard" },
+];
+---
+
+<Layout title="Business Hub" description="Private operations hub for PennyGrove." path="/hub" noindex>
+  <div class="mx-auto max-w-5xl px-4 py-10">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">PennyGrove · Business Hub</h1>
+        <p class="mt-1 text-slate-500">Your one-stop command center. This page is hidden from search; your tracker data is saved privately in this browser.</p>
+      </div>
+      <a href={liveUrl} target="_blank" rel="noopener" class="btn">Open live site →</a>
+    </div>
+
+    <!-- Launch checklist -->
+    <section class="card mt-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-slate-900">Launch checklist</h2>
+        <span id="checklist-progress" class="text-sm font-semibold text-brand-700"></span>
+      </div>
+      <ul id="checklist" class="mt-4 space-y-2">
+        {checklist.map((c) => (
+          <li>
+            <label class="flex items-start gap-3 rounded-lg p-2 hover:bg-slate-50">
+              <input type="checkbox" data-id={c.id} checked={c.done} class="mt-1 h-4 w-4 accent-brand-600" />
+              <span class="text-slate-700">{c.label}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Quick links -->
+    <section class="mt-8">
+      <h2 class="text-xl font-bold text-slate-900">Quick links</h2>
+      {links.map((grp) => (
+        <div class="mt-4">
+          <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{grp.group}</h3>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {grp.items.map((i) => (
+              <a href={i.u} target="_blank" rel="noopener" class="card transition hover:-translate-y-0.5 hover:shadow-md">
+                <div class="font-semibold text-slate-900">{i.t}</div>
+                <div class="mt-1 text-sm text-slate-500">{i.d}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <!-- Revenue tracker -->
+    <section class="card mt-10">
+      <h2 class="text-xl font-bold text-slate-900">Revenue & traffic tracker</h2>
+      <p class="mt-1 text-sm text-slate-500">Log each month's numbers from your AdSense, affiliate, and analytics dashboards. Saved in this browser only.</p>
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-xl border border-brand-200 bg-brand-50 p-4">
+          <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Lifetime revenue</div>
+          <div id="kpi-total" class="mt-1 text-2xl font-extrabold tnum text-brand-700">$0</div>
+        </div>
+        <div class="rounded-xl border border-slate-200 p-4">
+          <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Latest month</div>
+          <div id="kpi-latest" class="mt-1 text-2xl font-extrabold tnum text-slate-900">$0</div>
+        </div>
+        <div class="rounded-xl border border-slate-200 p-4">
+          <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Progress to $2k/mo</div>
+          <div id="kpi-goal" class="mt-1 text-2xl font-extrabold tnum text-slate-900">0%</div>
+        </div>
+      </div>
+
+      <div class="mt-5 grid gap-2 sm:grid-cols-5">
+        <input id="r-month" type="month" class="field" />
+        <input id="r-ads" type="number" min="0" step="0.01" placeholder="Ad $" class="field" />
+        <input id="r-aff" type="number" min="0" step="0.01" placeholder="Affiliate $" class="field" />
+        <input id="r-vis" type="number" min="0" step="1" placeholder="Visitors" class="field" />
+        <button id="r-add" class="btn" type="button">Add / update</button>
+      </div>
+
+      <div class="mt-5 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-xs uppercase tracking-wide text-slate-500">
+              <th class="pb-2">Month</th><th class="pb-2">Ads</th><th class="pb-2">Affiliate</th>
+              <th class="pb-2">Total</th><th class="pb-2">Visitors</th><th class="pb-2">RPM*</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="r-body"></tbody>
+        </table>
+        <p id="r-empty" class="py-4 text-center text-sm text-slate-400">No data yet — add your first month above.</p>
+        <p class="mt-2 text-xs text-slate-400">*RPM = revenue per 1,000 visitors. Finance sites often reach $20–$40 on mature traffic.</p>
+      </div>
+    </section>
+
+    <!-- How you get paid -->
+    <section class="mt-10">
+      <h2 class="text-xl font-bold text-slate-900">💸 How you actually get paid</h2>
+      <div class="mt-4 grid gap-4 md:grid-cols-3">
+        {payouts.map((p) => (
+          <div class="card">
+            <div class="font-bold text-slate-900">{p.name}</div>
+            <dl class="mt-2 space-y-1.5 text-sm text-slate-600">
+              <div><dt class="inline font-medium text-slate-500">How: </dt><dd class="inline">{p.how}</dd></div>
+              <div><dt class="inline font-medium text-slate-500">When: </dt><dd class="inline">{p.when}</dd></div>
+              <div><dt class="inline font-medium text-slate-500">Minimum: </dt><dd class="inline">{p.min}</dd></div>
+              <div><dt class="inline font-medium text-slate-500">Setup: </dt><dd class="inline">{p.need}</dd></div>
+            </dl>
+          </div>
+        ))}
+      </div>
+      <p class="mt-3 rounded-xl bg-slate-100 p-4 text-sm text-slate-600">
+        <strong>The flow in plain English:</strong> visitors use your calculators/guides → they click ads or affiliate offers →
+        the ad network/affiliate credits your account → once you pass each platform's minimum, it auto-pays the bank account
+        or PayPal you set up there. You don't invoice anyone; the money lands automatically each cycle. Your only recurring job
+        is logging the numbers above and occasionally adding content.
+      </p>
+    </section>
+
+    <!-- Monthly routine -->
+    <section class="card mt-10">
+      <h2 class="text-xl font-bold text-slate-900">Your ~20-min monthly routine</h2>
+      <ol class="mt-3 list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>Open <strong>Search Console</strong> → note clicks/impressions; find pages ranking #5–20 and improve them.</li>
+        <li>Check <strong>AdSense</strong> + <strong>affiliate</strong> dashboards → log last month's earnings in the tracker above.</li>
+        <li>Confirm the latest <strong>deploy</strong> is green (Actions link).</li>
+        <li>Optional: publish 1–2 new guides (ask me — I'll have the team write them).</li>
+        <li>At ~10k sessions/mo, apply to <strong>Ezoic</strong>; at ~50k, apply to <strong>Mediavine</strong> (big RPM jump).</li>
+      </ol>
+    </section>
+  </div>
+
+  <script is:inline define:vars={{ checklist }}>
+    const LS = { check: "pg_checklist", rev: "pg_revenue" };
+    const $ = (s) => document.querySelector(s);
+    const money = (n) => "$" + (Math.round(n)).toLocaleString();
+
+    // ---- Checklist ----
+    const savedChecks = JSON.parse(localStorage.getItem(LS.check) || "{}");
+    const boxes = [...document.querySelectorAll('#checklist input[type=checkbox]')];
+    function renderChecks() {
+      let done = 0;
+      boxes.forEach((b) => {
+        const id = b.dataset.id;
+        if (id in savedChecks) b.checked = savedChecks[id];
+        if (b.checked) done++;
+      });
+      $("#checklist-progress").textContent = done + " / " + boxes.length + " done";
+    }
+    boxes.forEach((b) => b.addEventListener("change", () => {
+      savedChecks[b.dataset.id] = b.checked;
+      localStorage.setItem(LS.check, JSON.stringify(savedChecks));
+      renderChecks();
+    }));
+    renderChecks();
+
+    // ---- Revenue tracker ----
+    let rows = JSON.parse(localStorage.getItem(LS.rev) || "[]");
+    const save = () => localStorage.setItem(LS.rev, JSON.stringify(rows));
+    function render() {
+      rows.sort((a, b) => a.month.localeCompare(b.month));
+      const body = $("#r-body");
+      body.innerHTML = "";
+      $("#r-empty").style.display = rows.length ? "none" : "block";
+      let lifetime = 0;
+      rows.forEach((r, idx) => {
+        const total = (r.ads || 0) + (r.aff || 0);
+        lifetime += total;
+        const rpm = r.vis ? (total / r.vis) * 1000 : 0;
+        const tr = document.createElement("tr");
+        tr.className = "border-t border-slate-100";
+        tr.innerHTML =
+          `<td class="py-2">${r.month}</td>` +
+          `<td class="py-2 tnum">${money(r.ads || 0)}</td>` +
+          `<td class="py-2 tnum">${money(r.aff || 0)}</td>` +
+          `<td class="py-2 font-semibold tnum">${money(total)}</td>` +
+          `<td class="py-2 tnum">${(r.vis || 0).toLocaleString()}</td>` +
+          `<td class="py-2 tnum">${rpm ? "$" + rpm.toFixed(1) : "—"}</td>` +
+          `<td class="py-2 text-right"><button data-i="${idx}" class="del text-slate-400 hover:text-red-500">✕</button></td>`;
+        body.appendChild(tr);
+      });
+      body.querySelectorAll(".del").forEach((b) =>
+        b.addEventListener("click", () => { rows.splice(+b.dataset.i, 1); save(); render(); }));
+      const latest = rows.length ? (rows[rows.length - 1].ads || 0) + (rows[rows.length - 1].aff || 0) : 0;
+      $("#kpi-total").textContent = money(lifetime);
+      $("#kpi-latest").textContent = money(latest);
+      $("#kpi-goal").textContent = Math.min(100, Math.round((latest / 2000) * 100)) + "%";
+    }
+    $("#r-add").addEventListener("click", () => {
+      const month = $("#r-month").value;
+      if (!month) { $("#r-month").focus(); return; }
+      const entry = { month, ads: +$("#r-ads").value || 0, aff: +$("#r-aff").value || 0, vis: +$("#r-vis").value || 0 };
+      const existing = rows.findIndex((r) => r.month === month);
+      if (existing >= 0) rows[existing] = entry; else rows.push(entry);
+      save(); render();
+      $("#r-ads").value = $("#r-aff").value = $("#r-vis").value = "";
+    });
+    render();
+  </script>
+</Layout>
