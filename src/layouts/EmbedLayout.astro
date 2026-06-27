@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+import { SITE } from "../config.ts";
+
+interface Props {
+  title: string;
+  /** Calculator slug for the attribution link. */
+  slug: string;
+}
+const { title, slug } = Astro.props;
+const canonical = new URL(`/calculators/${slug}`, SITE.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} — {SITE.name}</title>
+    <link rel="canonical" href={canonical} />
+  </head>
+  <body class="bg-white">
+    <div class="mx-auto max-w-4xl p-4">
+      <slot />
+      <p class="mt-4 text-center text-xs text-slate-400">
+        Free <a href={`${canonical}?utm_source=embed`} target="_blank" rel="noopener" class="font-medium text-brand-700 underline">{title}</a>
+        by <a href={`${SITE.url}?utm_source=embed`} target="_blank" rel="noopener" class="font-medium text-brand-700 underline">{SITE.name}</a>
+      </p>
+    </div>
+  </body>
+</html>

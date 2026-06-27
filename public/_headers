@@ -1,8 +1,10 @@
 # Cloudflare Pages headers — security + caching. Applied automatically on deploy.
 
+# Note: X-Frame-Options is intentionally NOT set so the /embed/* calculator
+# widgets can be embedded on other sites (a link-building feature). The site is
+# stateless — no logins, cookies, or sessions — so clickjacking risk is minimal.
 /*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload

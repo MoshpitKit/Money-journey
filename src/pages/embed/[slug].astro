@@ -1,0 +1,31 @@
+---
+import EmbedLayout from "../../layouts/EmbedLayout.astro";
+import { CALCULATORS } from "../../lib/catalog.ts";
+import CompoundInterestCalc from "../../components/calculators/CompoundInterestCalc.tsx";
+import MortgageCalc from "../../components/calculators/MortgageCalc.tsx";
+import HomeAffordabilityCalc from "../../components/calculators/HomeAffordabilityCalc.tsx";
+import DebtPayoffCalc from "../../components/calculators/DebtPayoffCalc.tsx";
+import RetirementCalc from "../../components/calculators/RetirementCalc.tsx";
+import CoastFireCalc from "../../components/calculators/CoastFireCalc.tsx";
+import SavingsGoalCalc from "../../components/calculators/SavingsGoalCalc.tsx";
+import BudgetCalc from "../../components/calculators/BudgetCalc.tsx";
+
+export function getStaticPaths() {
+  return CALCULATORS.map((c) => ({ params: { slug: c.slug }, props: { calc: c } }));
+}
+
+const { calc } = Astro.props;
+const s = calc.slug;
+---
+
+<EmbedLayout title={calc.title} slug={calc.slug}>
+  <h1 class="mb-4 text-xl font-bold text-slate-900">{calc.title}</h1>
+  {s === "compound-interest" && <CompoundInterestCalc client:load />}
+  {s === "mortgage" && <MortgageCalc client:load />}
+  {s === "home-affordability" && <HomeAffordabilityCalc client:load />}
+  {s === "debt-payoff" && <DebtPayoffCalc client:load />}
+  {s === "retirement" && <RetirementCalc client:load />}
+  {s === "coast-fire" && <CoastFireCalc client:load />}
+  {s === "savings-goal" && <SavingsGoalCalc client:load />}
+  {s === "budget" && <BudgetCalc client:load />}
+</EmbedLayout>
