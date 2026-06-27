@@ -1,20 +1,32 @@
 ---
 import Layout from "../components/Layout.astro";
+import { getCollection } from "astro:content";
 import { CALCULATORS } from "../lib/catalog.ts";
 import { SITE } from "../config.ts";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE.name,
-  url: SITE.url,
-  description: SITE.description,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${SITE.url}/calculators?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
+const latestGuides = (await getCollection("guides"))
+  .filter((g) => !g.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const ogImg = new URL("/og.png", SITE.url).href;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
   },
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url,
+    logo: { "@type": "ImageObject", url: ogImg },
+    description: SITE.description,
+  },
+];
 ---
 
 <Layout title={SITE.name} description={SITE.description} path="/" jsonLd={jsonLd}>
@@ -76,6 +88,26 @@ const jsonLd = {
           <h3 class="mt-4 font-bold text-slate-900">{f.t}</h3>
           <p class="mt-1.5 text-sm text-slate-500">{f.d}</p>
         </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Latest guides -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <div class="flex items-end justify-between">
+      <div>
+        <h2 class="text-3xl font-bold text-slate-900">Latest guides</h2>
+        <p class="mt-2 text-slate-500">Plain-English money explainers, no filler.</p>
+      </div>
+      <a href="/guides" class="hidden font-semibold text-brand-600 hover:text-brand-700 sm:inline">All guides →</a>
+    </div>
+    <div class="mt-8 grid gap-5 sm:grid-cols-3">
+      {latestGuides.map((g) => (
+        <a href={`/guides/${g.id}`} class="card group transition hover:-translate-y-1 hover:shadow-md">
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-700">{g.data.title}</h3>
+          <p class="mt-2 text-sm text-slate-500">{g.data.description}</p>
+          <span class="mt-3 inline-block text-sm font-semibold text-brand-600">Read guide →</span>
+        </a>
       ))}
     </div>
   </section>

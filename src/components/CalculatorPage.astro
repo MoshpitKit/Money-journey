@@ -17,11 +17,16 @@ interface Props {
   intro: string;
   faqs: FAQ[];
   placement: Placement;
+  /** SEO <title> override (independent of on-page H1) for click-through. */
+  seoTitle?: string;
+  /** Meta-description override (independent of the visible intro). */
+  metaDescription?: string;
 }
 
-const { slug, heading, intro, faqs, placement } = Astro.props;
+const { slug, heading, intro, faqs, placement, seoTitle, metaDescription } = Astro.props;
 const meta = calcBySlug(slug)!;
 const title = heading ?? meta.title;
+const description = metaDescription ?? intro;
 const path = `/calculators/${slug}`;
 const related = CALCULATORS.filter((c) => c.slug !== slug).slice(0, 3);
 
@@ -34,7 +39,7 @@ const jsonLd = [
     operatingSystem: "Any",
     url: new URL(path, SITE.url).href,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    description: intro,
+    description: description,
   },
   {
     "@context": "https://schema.org",
@@ -57,7 +62,7 @@ const jsonLd = [
 ];
 ---
 
-<Layout title={title} description={intro} path={path} jsonLd={jsonLd}>
+<Layout title={title} seoTitle={seoTitle} description={description} path={path} jsonLd={jsonLd}>
   <div class="mx-auto max-w-6xl px-4 py-8">
     <nav class="mb-4 text-sm text-slate-400">
       <a href="/" class="hover:text-brand-700">Home</a>

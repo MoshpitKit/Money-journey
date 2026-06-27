@@ -8,7 +8,13 @@ import { SITE } from "./src/config.ts";
 // https://astro.build/config
 export default defineConfig({
   site: SITE.url,
-  integrations: [preact({ compat: true }), sitemap()],
+  integrations: [
+    preact({ compat: true }),
+    sitemap({
+      // Stamp every entry with a build-time lastmod so crawlers see freshness.
+      serialize: (item) => ({ ...item, lastmod: new Date().toISOString() }),
+    }),
+  ],
   vite: {
     // Cast avoids a cosmetic type clash between Astro's bundled Vite and the
     // top-level Vite types; the plugin works correctly at build time.

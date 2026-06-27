@@ -8,16 +8,20 @@
  */
 
 export const SITE = {
-  name: "Money Journey",
-  /** Production URL. Change to your real domain (no trailing slash). */
-  url: "https://moneyjourney.pages.dev",
-  tagline: "Free, accurate money calculators — no fluff, no sign-up.",
+  name: "PennyGrove",
+  /**
+   * Production URL (no trailing slash). Set to your custom domain.
+   * If you're running only on the free Cloudflare *.pages.dev URL for now,
+   * change this to that URL instead so canonicals/sitemap match what's live.
+   */
+  url: "https://pennygrove.com",
+  tagline: "Grow your money with confidence.",
   description:
-    "Free personal-finance calculators for compound interest, mortgages, debt payoff, retirement, and more. Accurate math, instant results, clear explanations.",
-  author: "Money Journey",
+    "Free, accurate money calculators and clear guides to help you grow your savings, crush debt, and plan for the future. No sign-up, no jargon.",
+  author: "PennyGrove",
   locale: "en_US",
   /** Used in JSON-LD + footer. */
-  email: "hello@moneyjourney.pages.dev",
+  email: "hello@pennygrove.com",
 };
 
 /**

@@ -1,4 +1,5 @@
 ---
+import "@fontsource-variable/inter";
 import "../styles/global.css";
 import Seo from "./Seo.astro";
 import Header from "./Header.astro";
@@ -9,10 +10,12 @@ interface Props {
   title: string;
   description?: string;
   path?: string;
+  seoTitle?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  ogType?: "website" | "article";
 }
-const { title, description, path, jsonLd, noindex } = Astro.props;
+const { title, description, path, seoTitle, jsonLd, noindex, ogType } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,10 +23,10 @@ const { title, description, path, jsonLd, noindex } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#059669" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://rsms.me/" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-    <Seo {title} {description} {path} {jsonLd} {noindex} />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Seo {title} {description} {path} {seoTitle} {jsonLd} {noindex} {ogType} />
     <Analytics />
   </head>
   <body class="flex min-h-screen flex-col">

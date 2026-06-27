@@ -1,4 +1,6 @@
-# 💰 Money Journey
+# 🌱 PennyGrove
+
+*Grow your money with confidence.*
 
 A production-ready **personal-finance calculator website** built to earn passive
 income through display ads and high-intent affiliate offers — with near-zero
@@ -86,7 +88,7 @@ the compound-interest and savings-goal results — where buyer intent is highest
 
 ### B. Display ads
 1. **Start:** Apply to **Google AdSense** (<https://adsense.com>). Needs a live
-   site with real content — you already have 6 tools + 4 guides + legal pages,
+   site with real content — you already have 6 tools + 7 guides + legal pages,
    which is what they look for.
 2. When approved, put your publisher id in [`src/config.ts`](src/config.ts):
    ```ts
@@ -127,6 +129,11 @@ searches/month).
 3. **Upgrading the ad network** once traffic qualifies (the easy 3–5× lever).
 
 ### The growth plan (the only ongoing work)
+> 📋 **A full, prioritized 6–12 month SEO & content roadmap lives in
+> [`docs/seo-strategy.md`](docs/seo-strategy.md)** — keyword targets, a 90-day
+> week-by-week action plan, on-page optimizations, E-E-A-T checklist, and a
+> white-hat link-building plan. Start there.
+
 Adding content is how traffic compounds. Each is low-effort and optional:
 - **Add a guide:** drop a `.md` file in `src/content/guides/` (copy an existing
   one's front-matter). ~30 min each. Aim for 1–2/month.
